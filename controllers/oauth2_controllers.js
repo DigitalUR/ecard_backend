@@ -41,7 +41,10 @@ const oauth2Esignet = async (req, res) => {
             }
         });
 
-        return res.status(httpStatus.OK).json(await response.json())
+        const data = await response.json();
+        console.log(data);
+
+        return res.status(httpStatus.OK).json(data)
     } catch(err) {
         console.log(err.stack);
         return res.status(httpStatus.INTERNAL_SERVER_ERROR).json({error:true, message: "Something gone wrong"})
