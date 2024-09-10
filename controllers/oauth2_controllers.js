@@ -35,7 +35,8 @@ const oauth2Esignet = async (req, res) => {
         const response = await fetch('https://esignet.collab.mosip.net/v1/esignet/oauth/v2/token',{
             method: 'POST',
             headers: {
-                      "Content-Type": "application/x-www-form-urlencoded"
+                      // "Content-Type": "application/x-www-form-urlencoded"
+                      "Content-Type": "application/json"
                     },
             body: {
                 code,
