@@ -9,7 +9,8 @@ const privateKeyJwk = JSON.parse(process.env.PRIVATE_KEY_JWK);
 const redirectUri = process.env.REDIRECT_URI;
 
 const testEsignet = async (req, res) => {
-    const authUrl = `https://esignet.collab.mosip.net/authorize?scope=openid&response_type=code&client_id=${clientId}&redirect_uri=${redirectUri}`;
+    // const authUrl = `https://esignet.collab.mosip.net/authorize?scope=openid&response_type=code&client_id=${clientId}&redirect_uri=${redirectUri}`;
+    const authUrl = `https://esignet.collab.mosip.net/authorize?scope=profile&response_type=code&client_id=${clientId}&redirect_uri=${redirectUri}`;
     return res.redirect(authUrl);
 };
 
