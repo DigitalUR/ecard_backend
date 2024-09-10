@@ -1,14 +1,54 @@
 import dotenv from 'dotenv';
-dotenv.config();
+import httpStatus from 'http-status';
+import jwkToPem from 'jwk-to-pem';
+import jwt from 'jsonwebtoken';
+dotenv.config();    
 
-const testEsignet = async (req, res) => {    
-    const clientId = process.env.MOSIP_CLIENT_ID
-    const redirectUri = `https://ecard-backend.onrender.com/api/oauth2/esignet/callback`
-    
+const clientId = process.env.MOSIP_CLIENT_ID;
+const privateKeyJwk = JSON.parse(process.env.PRIVATE_KEY_JWK);
+const redirectUri = process.env.REDIRECT_URI;
+
+const testEsignet = async (req, res) => {
     const authUrl = `https://esignet.collab.mosip.net/authorize?scope=openid&response_type=code&client_id=${clientId}&redirect_uri=${redirectUri}`;
     return res.redirect(authUrl);
 };
 
+const oauth2Esignet = async (req, res) => {
+    const { code } = req.query;
+    if (!code) 
+        return res.status(httpStatus.UNAUTHORIZED).json({error:true, message:"oauth2 failed"});
+
+    const privateKeyPem = jwkToPem(privateKeyJwk, {private:true});
+
+    const payload = {
+        iat: Math.floor(Date.now() / 1000 ),
+        exp: Math.floor(Date.now() / 1000 ) + 5 * 60,
+        sub: clientId,
+        iss: clientId,
+        aud: 'https://esignet.collab.mosip.net/v1/esignet/oauth/v2/token'
+    };
+
+    const clientAssertion = jwt.sign(payload ,privateKeyPem);
+
+    try {
+        const response = await fetch('https://esignet.collab.mosip.net/v1/esignet/oauth/v2/token',{
+            method: 'POST',
+            body: {
+                code,
+                client_assertion: clientAssertion,
+                client_assertion_type:  'urn:ietf:params:oauth:client-assertion-type:jwt-bearer',
+                redirect_uri: redirectUri
+            }
+        });
+
+        return res.status(httpStatus.OK).json(await response.json())
+    } catch(err) {
+        console.log(err.stack);
+        return res.status(httpStatus.INTERNAL_SERVER_ERROR).json({error:true, message: "Something gone wrong"})
+    }
+};
+
 export {
-    testEsignet
+    testEsignet,
+    oauth2Esignet
 };
