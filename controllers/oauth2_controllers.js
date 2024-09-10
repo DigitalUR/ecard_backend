@@ -34,16 +34,24 @@ const oauth2Esignet = async (req, res) => {
     try {
         const response = await fetch('https://esignet.collab.mosip.net/v1/esignet/oauth/v2/token',{
             method: 'POST',
+            // body: {
+            //     code,
+            //     client_assertion: clientAssertion,
+            //     client_assertion_type:  'urn:ietf:params:oauth:client-assertion-type:jwt-bearer',
+            //     redirect_uri: redirectUri
+            // }
+            method: 'POST',
             headers: {
-                      // "Content-Type": "application/x-www-form-urlencoded"
-                      "Content-Type": "application/json"
-                    },
-            body: {
-                code,
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            body: new URLSearchParams({
+                code: code,
                 client_assertion: clientAssertion,
-                client_assertion_type:  'urn:ietf:params:oauth:client-assertion-type:jwt-bearer',
-                redirect_uri: redirectUri
-            }
+                client_assertion_type: 'urn:ietf:params:oauth:client-assertion-type:jwt-bearer',
+                redirect_uri: redirectUri,
+                grant_type: 'authorization_code'
+            }).toString()
+
         });
         console.log(response);
         // const data = await response.json();
