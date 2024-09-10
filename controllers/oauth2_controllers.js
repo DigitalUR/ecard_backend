@@ -41,11 +41,11 @@ const oauth2Esignet = async (req, res) => {
                 redirect_uri: redirectUri
             }
         });
+        console.log(response);
+        // const data = await response.json();
+        // console.log(data);
 
-        const data = await response.json();
-        console.log(data);
-
-        return res.status(httpStatus.OK).json(data)
+        return res.status(httpStatus.OK).json('ok')
     } catch(err) {
         console.log(err.stack);
         return res.status(httpStatus.INTERNAL_SERVER_ERROR).json({error:true, message: "Something gone wrong"})
