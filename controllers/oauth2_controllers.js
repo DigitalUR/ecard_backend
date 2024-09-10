@@ -14,6 +14,7 @@ const testEsignet = async (req, res) => {
 };
 
 const oauth2Esignet = async (req, res) => {
+    console.log("hello from oath2Esignet....!");
     const { code } = req.query;
     if (!code) 
         return res.status(httpStatus.UNAUTHORIZED).json({error:true, message:"oauth2 failed"});
