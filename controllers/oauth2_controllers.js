@@ -29,7 +29,7 @@ const oauth2Esignet = async (req, res) => {
         aud: 'https://esignet.collab.mosip.net/v1/esignet/oauth/v2/token'
     };
 
-    const clientAssertion = jwt.sign(payload ,privateKeyPem);
+    const clientAssertion = jwt.sign(payload ,privateKeyPem,{algorithm: 'RS256'});
 
     try {
         const response = await fetch('https://esignet.collab.mosip.net/v1/esignet/oauth/v2/token',{
