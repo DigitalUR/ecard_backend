@@ -8,12 +8,6 @@ const clientId = process.env.MOSIP_CLIENT_ID;
 const privateKeyJwk = JSON.parse(process.env.PRIVATE_KEY_JWK);
 const redirectUri = process.env.REDIRECT_URI;
 
-const testEsignet = async (req, res) => {
-    // const authUrl = `https://esignet.collab.mosip.net/authorize?scope=openid&response_type=code&client_id=${clientId}&redirect_uri=${redirectUri}`;
-    const authUrl = `https://esignet.collab.mosip.net/authorize?scope=openid profile&response_type=code&client_id=${clientId}&redirect_uri=${redirectUri}`;
-    return res.redirect(authUrl);
-};
-
 const oauth2Esignet = async (req, res) => {
     console.log("hello from oath2Esignet....!");
     const { code } = req.query;
@@ -35,13 +29,6 @@ const oauth2Esignet = async (req, res) => {
     try {
 
         const tokenResponse = await fetch('https://esignet.collab.mosip.net/v1/esignet/oauth/v2/token',{
-            method: 'POST',
-            // body: {
-            //     code,
-            //     client_assertion: clientAssertion,
-            //     client_assertion_type:  'urn:ietf:params:oauth:client-assertion-type:jwt-bearer',
-            //     redirect_uri: redirectUri
-            // }
             method: 'POST',
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded'
@@ -77,7 +64,19 @@ const oauth2Esignet = async (req, res) => {
     }
 };
 
+const dataDemo = (req, res) => {
+    res.status(httpStatus.OK).json({
+        regNo:222004312,
+        college:'College of science and technology',
+        school:'School og ICT',
+        department:'Computer science',
+        active:true,
+        enrolledAt:2021,
+        completionTime:2025
+    });
+}
+
 export {
-    testEsignet,
-    oauth2Esignet
+    oauth2Esignet,
+    dataDemo
 };
