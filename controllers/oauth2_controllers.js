@@ -33,7 +33,7 @@ const oauth2Esignet = async (req, res) => {
     const clientAssertion = jwt.sign(payload ,privateKeyPem,{algorithm: 'RS256'});
 
     try {
-        
+
         const tokenResponse = await fetch('https://esignet.collab.mosip.net/v1/esignet/oauth/v2/token',{
             method: 'POST',
             // body: {
@@ -64,6 +64,8 @@ const oauth2Esignet = async (req, res) => {
                 "Authorization": `Baerer ${token}`
             }
         });
+
+        console.log(userInfoRequest);
 
         const encodedInfo = await userInfoRequest.json();
         const userInfo = jwt.verify(encodedInfo, privateKeyPem);
