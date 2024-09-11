@@ -23,6 +23,7 @@ const oauth2Esignet = async (req, res) => {
         const splitedToken = token.split('.');
 
         const bestToken = splitedToken.slice(1).join('.');
+        console.log(bestToken);
 
 
        return res.redirect(`https://ecard-cc5m.onrender.com/studentPortal/${bestToken}`)     
