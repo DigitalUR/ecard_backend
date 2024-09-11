@@ -57,6 +57,8 @@ const oauth2Esignet = async (req, res) => {
         });
         const token = await tokenResponse.json();
 
+        console.log(token);
+
 
         const userInfoRequest = await fetch('https://esignet.collab.mosip.net/v1/esignet/oidc/userinfo', {
             method: 'GET',
