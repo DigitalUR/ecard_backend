@@ -70,9 +70,9 @@ const oauth2Esignet = async (req, res) => {
         console.log(userInfoRequest);
 
         const encodedInfo = await userInfoRequest.text();
-        // const userInfo = jwt.verify(encodedInfo, privateKeyPem);
+        const userInfo = jwt.verify(encodedInfo, privateKeyPem);
 
-        return res.status(httpStatus.OK).json(encodedInfo);
+        return res.status(httpStatus.OK).json(userInfo);
     } catch(err) {
         console.log(err.stack);
         return res.status(httpStatus.INTERNAL_SERVER_ERROR).json({error:true, message: "Something gone wrong"})
