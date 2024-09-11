@@ -1,6 +1,10 @@
 import httpStatus from 'http-status';
 import { esignet } from '../services/oauth2Service.js';
 import { getInfo } from '../services/dataService.js';
+import jwt from 'jsonwebtoken';
+import dotenv from 'dotenv';
+
+dotenv.config();
 
 const oauth2Esignet = async (req, res) => {
     const { code } = req.query;
@@ -9,11 +13,19 @@ const oauth2Esignet = async (req, res) => {
 
     try {
         const userEsgnetInfos = await esignet(code);
-        console.log( userEsgnetInfos.email);
         const academic = await getInfo(userEsgnetInfos.email);
-        const combinedInfo = {...userEsgnetInfos, ...academic}
+        const combinedInfo = {...userEsgnetInfos, ...academic};
 
-       return res.status(httpStatus.OK).json(combinedInfo);     
+        const token = jwt.sign(combinedInfo, process.env.JWT_SECRET_KEY);
+
+        console.log(token);
+
+        const splitedToken = token.split('.');
+
+        const bestToken = splitedToken.slice(1).join('.');
+
+
+       return res.redirect(`https://ecard-cc5m.onrender.com/studentPortal/${bestToken}`)     
     } catch (error) {
         console.error(error.stack);
         res.status(httpStatus.INTERNAL_SERVER_ERROR).json({error:true, message:"Oops! something gone wrong"})
