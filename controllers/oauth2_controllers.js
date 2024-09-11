@@ -55,7 +55,7 @@ const oauth2Esignet = async (req, res) => {
             }).toString()
 
         });
-        const token = await tokenResponse.json().access_token;
+        const token = await tokenResponse.json();
 
         console.log('token:',token);
 
@@ -63,7 +63,7 @@ const oauth2Esignet = async (req, res) => {
         const userInfoRequest = await fetch('https://esignet.collab.mosip.net/v1/esignet/oidc/userinfo', {
             method: 'GET',
             headers:{
-                "Authorization": `Bearer ${token}`
+                "Authorization": `Bearer ${token.access_token}`
             }
         });
 
