@@ -1,0 +1,84 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "My API",
+    "version": "1.0.0",
+    "description": "API Documentation for My Application"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:5000",
+      "description": "Development Server"
+    }
+  ],
+  "paths": {
+    "/api/v1/data": {
+      "get": {
+        "summary": "Get all data",
+        "description": "Retrieve all the data from the database",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Data"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Data": {
+        "type": "object",
+        "required": [
+          "regno",
+          "mosipProfile",
+          "level",
+          "college",
+          "school",
+          "department",
+          "active",
+          "enrolledAt",
+          "completionTime"
+        ],
+        "properties": {
+          "regno": {
+            "type": "integer"
+          },
+          "mosipProfile": {
+            "type": "string"
+          },
+          "level": {
+            "type": "string"
+          },
+          "college": {
+            "type": "string"
+          },
+          "school": {
+            "type": "string"
+          },
+          "department": {
+            "type": "string"
+          },
+          "active": {
+            "type": "integer"
+          },
+          "enrolledAt": {
+            "type": "integer"
+          },
+          "completionTime": {
+            "type": "integer"
+          }
+        }
+      }
+    }
+  }
+}
