@@ -33,7 +33,8 @@ const oauth2Esignet = async (req, res) => {
     const clientAssertion = jwt.sign(payload ,privateKeyPem,{algorithm: 'RS256'});
 
     try {
-        const response = await fetch('https://esignet.collab.mosip.net/v1/esignet/oauth/v2/token',{
+        
+        const tokenResponse = await fetch('https://esignet.collab.mosip.net/v1/esignet/oauth/v2/token',{
             method: 'POST',
             // body: {
             //     code,
@@ -54,11 +55,20 @@ const oauth2Esignet = async (req, res) => {
             }).toString()
 
         });
-        // console.log(response);
-        const data = await response.json();
-        console.log(data);
+        const token = await tokenResponse.json();
 
-        return res.status(httpStatus.OK).json('ok')
+
+        const userInfoRequest = await fetch('https://esignet.collab.mosip.net/v1/esignet/oidc/userinfo', {
+            method: 'GET',
+            headers:{
+                "Authorization": `Baerer ${token}`
+            }
+        });
+
+        const encodedInfo = await userInfoRequest.json();
+        const userInfo = jwt.verify(encodedInfo, privateKeyPem);
+
+        return res.status(httpStatus.OK).json(userInfo);
     } catch(err) {
         console.log(err.stack);
         return res.status(httpStatus.INTERNAL_SERVER_ERROR).json({error:true, message: "Something gone wrong"})
