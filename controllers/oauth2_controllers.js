@@ -1,5 +1,6 @@
 import httpStatus from 'http-status';
 import { esignet } from '../services/oauth2Service.js';
+import { getInfo } from '../services/dataService.js';
 
 const oauth2Esignet = async (req, res) => {
     const { code } = req.query;
@@ -8,9 +9,11 @@ const oauth2Esignet = async (req, res) => {
 
     try {
         const userEsgnetInfos = await esignet(code);
+        const academic = await getInfo(userEsgnetInfos.email);
+        const combinedInfo = {...userEsgnetInfos, ...academic}
+        console.log(combinedInfo);
 
-        // const combinedData = {...academicInfo, ...userEsgnetInfos}
-        return res.status(httpStatus.OK).json(userEsgnetInfos);     
+       return res.status(httpStatus.OK).json(combinedInfo);     
     } catch (error) {
         console.error(error.stack);
         res.status(httpStatus.INTERNAL_SERVER_ERROR).json({error:true, message:"Oops! something gone wrong"})
