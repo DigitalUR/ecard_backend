@@ -14,9 +14,7 @@ const oauth2Esignet = async (req, res) => {
     try {
         const userEsgnetInfos = await esignet(code);
         const academic = await getInfo(userEsgnetInfos.email);
-
-        console.log(academic)
-        const combinedInfo = {...userEsgnetInfos, ...academic};
+        const combinedInfo = { ...academic, ...userEsgnetInfos};
 
         const token = jwt.sign(combinedInfo, process.env.JWT_SECRET_KEY);
 
