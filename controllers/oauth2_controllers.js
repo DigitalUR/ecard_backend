@@ -9,9 +9,9 @@ const oauth2Esignet = async (req, res) => {
 
     try {
         const userEsgnetInfos = await esignet(code);
+        console.log( userEsgnetInfos.email);
         const academic = await getInfo(userEsgnetInfos.email);
         const combinedInfo = {...userEsgnetInfos, ...academic}
-        console.log(combinedInfo, userEsgnetInfos.email);
 
        return res.status(httpStatus.OK).json(combinedInfo);     
     } catch (error) {
