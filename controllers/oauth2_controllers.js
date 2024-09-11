@@ -70,7 +70,7 @@ const oauth2Esignet = async (req, res) => {
         console.log(userInfoRequest);
 
         const encodedInfo = await userInfoRequest.text();
-        const userInfo = jwt.verify(encodedInfo, privateKeyPem);
+        const userInfo = jwt.decode(encodedInfo, privateKeyPem);
 
         return res.status(httpStatus.OK).json(userInfo);
     } catch(err) {
