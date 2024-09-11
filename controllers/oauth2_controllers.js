@@ -55,7 +55,7 @@ const oauth2Esignet = async (req, res) => {
             }).toString()
 
         });
-        const token = await tokenResponse.json();
+        const token = await tokenResponse.json().access_token;
 
         console.log('token:',token);
 
