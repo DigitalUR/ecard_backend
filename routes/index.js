@@ -3,6 +3,6 @@ import ouath2Routes from "./ouathRoutes.js";
 
 const routes = Router();
 
-routes.use('oauth2', ouath2Routes)
+routes.use('/oauth2', ouath2Routes)
 
 export default routes;
