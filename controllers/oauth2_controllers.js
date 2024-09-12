@@ -56,7 +56,7 @@ const dataDemo = (req, res) => {
     });
 }
 const getImage = (req, res) => {
-    const imageFileName = req.imageFileName;
+    const {imageFileName} = req.params;
     const filePath = `./${imageFileName}.txt`;
     let dataBuffer = ''
     fs.readFile(filePath, 'utf8', (err, data) => {

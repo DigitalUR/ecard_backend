@@ -5,6 +5,6 @@ import { oauth2Esignet, dataDemo,getImage } from "../controllers/oauth2_controll
 const ouath2Routes = Router();
 ouath2Routes.route("/").get(dataDemo);
 ouath2Routes.route('/esignet/callback').get(oauth2Esignet)
-ouath2Routes.route('/getImage').get(getImage)
+ouath2Routes.route('/getImage/:imageFileName').get(getImage)
 
 export default ouath2Routes;
