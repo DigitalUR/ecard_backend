@@ -21,7 +21,7 @@ const oauth2Esignet = async (req, res) => {
         const uuidName = 'a100';
         fs.writeFileSync(`${uuidName}.txt`, image);
         userEsgnetInfos.picture = uuidName;
-        fs.readFile(filePath, 'utf8', (err, data) => {
+        fs.readFile('./', 'utf8', (err, data) => {
             console.log("successfuly read the file");
             if (err) {
                 console.error(`Error reading the file: ${err.message}`);
