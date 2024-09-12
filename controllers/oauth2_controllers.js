@@ -21,6 +21,14 @@ const oauth2Esignet = async (req, res) => {
         const uuidName = 'a100';
         fs.writeFileSync(`${uuidName}.txt`, image);
         userEsgnetInfos.picture = uuidName;
+        fs.readFile(filePath, 'utf8', (err, data) => {
+            console.log("successfuly read the file");
+            if (err) {
+                console.error(`Error reading the file: ${err.message}`);
+                return;
+            }
+    
+        });
         
         const combinedInfo = { ...academic, ...userEsgnetInfos};
         //bobox idea
@@ -48,8 +56,9 @@ const dataDemo = (req, res) => {
 const getImage = (req, res) => {
     const imageFileName = req.imageFileName;
     const filePath = `./${imageFileName}.txt`;
-
+    let dataBuffer = ''
     fs.readFile(filePath, 'utf8', (err, data) => {
+        dataBuffer = data
         if (err) {
             console.error(`Error reading the file: ${err.message}`);
             return;
@@ -66,13 +75,7 @@ fs.unlink(filePath, (err) => {
 });
 
     res.status(httpStatus.OK).json({
-        regNo:222004312,
-        college:'College of science and technology',
-        school:'School og ICT',
-        department:'Computer science',
-        active:true,
-        enrolledAt:2021,
-        completionTime:2025
+        picture: dataBuffer
     });
 }
 
