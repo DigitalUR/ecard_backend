@@ -6,6 +6,8 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
+const photos = [];
+
 const oauth2Esignet = async (req, res) => {
     const { code } = req.query;
     if (!code) 
@@ -13,8 +15,12 @@ const oauth2Esignet = async (req, res) => {
 
     try {
         const userEsgnetInfos = await esignet(code);
+        const {picture, ...rest} = userEsgnetInfos;
+
         const academic = await getInfo(userEsgnetInfos.email);
-        const combinedInfo = { ...academic, ...userEsgnetInfos};
+        const combinedInfo = { ...academic, ...rest};
+
+        photos.push({id:academic.regno, pic:picture});
 
         const token = jwt.sign(combinedInfo, process.env.JWT_SECRET_KEY);
 
@@ -25,19 +31,17 @@ const oauth2Esignet = async (req, res) => {
     }
 };
 
-const dataDemo = (req, res) => {
-    res.status(httpStatus.OK).json({
-        regNo:222004312,
-        college:'College of science and technology',
-        school:'School og ICT',
-        department:'Computer science',
-        active:true,
-        enrolledAt:2021,
-        completionTime:2025
-    });
-}
+const getPhoto = (req, res) => {
+    const { regno } = req.params;
+    const pic = photos.find(photo=> photo.id === regno);
+
+    const index = photos.findIndex(photo => photo.id === regno);
+    photos.splice(index, 1);
+
+    res.status(httpStatus.OK).json({photo:pic.pic});
+};
 
 export {
     oauth2Esignet,
-    dataDemo
+    getPhoto
 };
