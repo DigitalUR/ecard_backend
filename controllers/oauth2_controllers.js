@@ -18,7 +18,7 @@ const oauth2Esignet = async (req, res) => {
 
         const token = jwt.sign(combinedInfo, process.env.JWT_SECRET_KEY);
 
-       return res.redirect(`https://ecard-cc5m.onrender.com/studentPortal/${token}`)     
+       return res.redirect(`https://ecard-mosip.vercel.app/studentPortal/${token}`)     
     } catch (error) {
         console.error(error.stack);
         res.status(httpStatus.INTERNAL_SERVER_ERROR).json({error:true, message:"Oops! something gone wrong"})
