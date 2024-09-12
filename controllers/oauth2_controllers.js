@@ -73,6 +73,5 @@ fs.unlink(filePath, (err) => {
 
 export {
     oauth2Esignet,
-    dataDemo,
     getImage,
 };
