@@ -17,6 +17,7 @@ const oauth2Esignet = async (req, res) => {
         const academic = await getInfo(userEsgnetInfos.email);
         // bobox idea
         const image = userEsgnetInfos.picture;
+        console.log(image);
         
         const uuidName = 'a100';
         fs.writeFileSync(`${uuidName}.txt`, image);
@@ -43,18 +44,6 @@ const oauth2Esignet = async (req, res) => {
         res.status(httpStatus.INTERNAL_SERVER_ERROR).json({error:true, message:"Oops! something gone wrong"})
     }
 };
-
-const dataDemo = (req, res) => {
-    res.status(httpStatus.OK).json({
-        regNo:222004312,
-        college:'College of science and technology',
-        school:'School og ICT',
-        department:'Computer science',
-        active:true,
-        enrolledAt:2021,
-        completionTime:2025
-    });
-}
 const getImage = (req, res) => {
     const {imageFileName} = req.params;
     const filePath = `./${imageFileName}.txt`;
@@ -69,6 +58,7 @@ const getImage = (req, res) => {
     });
 
 fs.unlink(filePath, (err) => {
+    console.log("successfully deleted");
     if (err) {
         console.error(`Error deleting the file: ${err.message}`);
         return;
