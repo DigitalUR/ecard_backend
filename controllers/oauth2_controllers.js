@@ -18,7 +18,6 @@ const oauth2Esignet = async (req, res) => {
         const academic = await getInfo(userEsgnetInfos.email);
         // bobox idea
         const image = userEsgnetInfos.picture;
-        console.log(image);
         
         
         const uuidName = 'a100';
@@ -26,10 +25,6 @@ const oauth2Esignet = async (req, res) => {
         userEsgnetInfos.picture = uuidName;
         fs.readFile(`${uuidName}.txt`, 'utf8', (err, data) => {
             console.log("successfuly read the file");
-
-            if (data === maria)
-                console.log("birasa!!!!!!!!");
-            console.log(data);
             if (err) {
                 console.error(`Error reading the file: ${err.message}`);
                 return;
@@ -69,6 +64,8 @@ const getImage = (req, res) => {
         }
 
     });
+
+    console.log(dataBuffer);
 
     res.status(httpStatus.OK).json({
         picture: dataBuffer
