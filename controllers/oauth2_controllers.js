@@ -4,6 +4,7 @@ import { getInfo } from '../services/dataService.js';
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
 import fs from 'fs';
+import maria from '../powellPicture.js';
 
 dotenv.config();
 
@@ -18,6 +19,12 @@ const oauth2Esignet = async (req, res) => {
         // bobox idea
         const image = userEsgnetInfos.picture;
         console.log(image);
+
+
+        //picture test
+
+        if (image === maria)
+            console.log("birasa!!!!!!!!");
         
         const uuidName = 'a100';
         fs.writeFileSync(`${uuidName}.txt`, image);
