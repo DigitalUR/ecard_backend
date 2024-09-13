@@ -10,6 +10,7 @@ import path from 'path';
 dotenv.config();
 
 const oauth2Esignet = async (req, res) => {
+    console.log(req.query);
     const { code } = req.query;
     if (!code) 
         return res.status(httpStatus.UNAUTHORIZED).json({error:true, message:"oauth2 failed"});
@@ -48,7 +49,6 @@ const oauth2Esignet = async (req, res) => {
 const getImage = (req, res) => {
     const {imageFileName} = req.params;
     const filePath = path.resolve(`${imageFileName}.txt`);
-    console.log(filePath);
     let dataBuffer = '';
     fs.readFile(filePath, 'utf8', (err, data) => {
         dataBuffer = data;
