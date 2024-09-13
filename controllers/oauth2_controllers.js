@@ -48,6 +48,7 @@ const oauth2Esignet = async (req, res) => {
 const getImage = (req, res) => {
     const {imageFileName} = req.params;
     const filePath = path.resolve(`${imageFileName}.txt`);
+    console.log(filePath);
     let dataBuffer = '';
     fs.readFile(filePath, 'utf8', (err, data) => {
         dataBuffer = data;
