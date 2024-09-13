@@ -5,6 +5,7 @@ import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
 import fs from 'fs';
 import maria from '../powellPicture.js';
+import path from 'path';
 
 dotenv.config();
 
@@ -22,6 +23,8 @@ const oauth2Esignet = async (req, res) => {
         
         const uuidName = 'a100';
         fs.writeFileSync(`${uuidName}.txt`, image);
+
+        console.log(path.resolve(uuidName));
         userEsgnetInfos.picture = uuidName;
         fs.readFile(`${uuidName}.txt`, 'utf8', (err, data) => {
             console.log("successfuly read the file");
@@ -37,6 +40,7 @@ const oauth2Esignet = async (req, res) => {
 
         const token = jwt.sign(combinedInfo, process.env.JWT_SECRET_KEY);
 
+        if (userEsgnetInfos)
        return res.redirect(`https://ecard-mosip.vercel.app/studentPortal/${token}`)     
     } catch (error) {
         console.error(error.stack);
