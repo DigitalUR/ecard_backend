@@ -19,12 +19,7 @@ const oauth2Esignet = async (req, res) => {
         // bobox idea
         const image = userEsgnetInfos.picture;
         console.log(image);
-
-
-        //picture test
-
-        if (image === maria)
-            console.log("birasa!!!!!!!!");
+        
         
         const uuidName = 'a100';
         fs.writeFileSync(`${uuidName}.txt`, image);
@@ -32,6 +27,8 @@ const oauth2Esignet = async (req, res) => {
         fs.readFile(`${uuidName}.txt`, 'utf8', (err, data) => {
             console.log("successfuly read the file");
 
+            if (data === maria)
+                console.log("birasa!!!!!!!!");
             console.log(data);
             if (err) {
                 console.error(`Error reading the file: ${err.message}`);
