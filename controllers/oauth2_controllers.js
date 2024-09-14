@@ -9,7 +9,6 @@ dotenv.config();
 
 const oauth2Esignet = async (req, res) => {
     const { code, state } = req.query;
-    console.log(req.query);
     if (!code) 
         return res.status(httpStatus.UNAUTHORIZED).json({error:true, message:"oauth2 failed"});
 
@@ -21,12 +20,11 @@ const oauth2Esignet = async (req, res) => {
         await savePhoto(picture);
         
         const combinedInfo = { ...academic, ...rest};
-        //bobox idea
 
         const token = jwt.sign(combinedInfo, process.env.JWT_SECRET_KEY);
         if(state === 'ecard_request')
             return res.redirect(`https://ecard-mosip.vercel.app/studentPortal/${token}`);
-        return res. redirect(`${state}&data=${combinedInfo}`); 
+        return res. redirect(`${state}?type=student&data=${token}`); 
     } catch (error) {
         console.error(error.stack);
         return res.status(httpStatus.INTERNAL_SERVER_ERROR).json({error:true, message:"Oops! something gone wrong"});
