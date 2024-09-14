@@ -9,7 +9,7 @@ const getPhoto = async () => {
         `TRUNCATE TABLE tempPhoto`
     );
 
-    return returnedPhoto;
+    return photo;
 };
 
 
@@ -18,8 +18,6 @@ const savePhoto = async (photo) => {
         `INSERT INTO tempPhoto VALUES(?)`,
         [photo]
     );
-
-    return 
 };
 
 
