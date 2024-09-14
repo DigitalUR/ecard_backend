@@ -3,16 +3,12 @@ import { esignet } from '../services/oauth2Service.js';
 import { getInfo } from '../services/dataService.js';
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
-import fs from 'fs';
-import maria from '../powellPicture.js';
-import path from 'path';
+import { getPhoto, savePhoto } from '../services/photo.js';
 
 dotenv.config();
 
 const oauth2Esignet = async (req, res) => {
-    console.log(req.query);
-    console.log(req.path);
-    const { code } = req.query;
+    const { code, state } = req.query;
     if (!code) 
         return res.status(httpStatus.UNAUTHORIZED).json({error:true, message:"oauth2 failed"});
 
@@ -21,59 +17,32 @@ const oauth2Esignet = async (req, res) => {
         const academic = await getInfo(userEsgnetInfos.email);
         // bobox idea
         const image = userEsgnetInfos.picture;
-        
-        
-        const uuidName = 'a100';
-        fs.writeFileSync(`${uuidName}.txt`, image);
-        userEsgnetInfos.picture = uuidName;
-        fs.readFile(`${uuidName}.txt`, 'utf8', (err, data) => {
-            console.log("successfuly read the file");
-            if (err) {
-                console.error(`Error reading the file: ${err.message}`);
-                return;
-            }
-    
-        });
+
+        await savePhoto(image);
         
         const combinedInfo = { ...academic, ...userEsgnetInfos};
         //bobox idea
 
         const token = jwt.sign(combinedInfo, process.env.JWT_SECRET_KEY);
-
-        if (userEsgnetInfos)
-       return res.redirect(`https://ecard-mosip.vercel.app/studentPortal/${token}`)     
+        if(state === 'ecard_request')
+            return res.redirect(`https://ecard-mosip.vercel.app/studentPortal/${token}`);
+        return res. redirect(`${state}?studentInfo=${token}`); 
     } catch (error) {
         console.error(error.stack);
-        res.status(httpStatus.INTERNAL_SERVER_ERROR).json({error:true, message:"Oops! something gone wrong"})
+        res.status(httpStatus.INTERNAL_SERVER_ERROR).json({error:true, message:"Oops! something gone wrong"});
     }
 };
-const getImage = (req, res) => {
-    const {imageFileName} = req.params;
-    const filePath = path.resolve(`${imageFileName}.txt`);
-    let dataBuffer = '';
-    fs.readFile(filePath, 'utf8', (err, data) => {
-        dataBuffer = data;
-        if (err) {
-            console.error(`Error reading the file: ${err.message}`);
-            return;
-        }
+const getImage = async (req, res) => {
 
-    });
 
-    fs.unlink(filePath, (err) => {
-        console.log(filePath, "successfully deleted");
-        if (err) {
-            console.error(`Error deleting the file: ${err.message}`);
-            return;
-        }
+    try {
+        const photo = await getPhoto();
 
-    });
-
-    console.log(dataBuffer);
-
-    res.status(httpStatus.OK).json({
-        picture: dataBuffer
-    });
+        return res.status(httpStatus.OK).json({picture:photo})
+    } catch(error) {
+        console.error(error.stack);
+        res.status(httpStatus.INTERNAL_SERVER_ERROR).json({error:true, message:"Oops! something gone wrong"});
+    }
 }
 
 export {
