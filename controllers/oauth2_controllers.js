@@ -18,7 +18,7 @@ const oauth2Esignet = async (req, res) => {
         const academic = await getInfo(userEsgnetInfos.email);
         const {picture, ...rest} = userEsgnetInfos;
 
-        await savePhoto(picture);
+        // await savePhoto(picture);
         
         const combinedInfo = { ...academic, ...rest};
         //bobox idea
