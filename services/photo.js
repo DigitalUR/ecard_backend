@@ -13,17 +13,12 @@ const getPhoto = async () => {
 
 
 const savePhoto = async (photo) => {
-    try {
-        const insertion = await connectionPool.execute(
-            `INSERT INTO tempPhoto VALUES(?)`,
-            [photo]
-        );
-    
-        return insertion;        
-    } catch (error) {
-        console.error(error.stack);
-        return "error";
-    }
+    const insertion = await connectionPool.execute(
+        `INSERT INTO tempPhoto VALUES(?)`,
+        [photo]
+    );
+
+    return 
 };
 
 

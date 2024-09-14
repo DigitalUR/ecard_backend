@@ -29,7 +29,7 @@ const oauth2Esignet = async (req, res) => {
         return res. redirect(`${state}&data=${combinedInfo}`); 
     } catch (error) {
         console.error(error.stack);
-        res.status(httpStatus.INTERNAL_SERVER_ERROR).json({error:true, message:"Oops! something gone wrong"});
+        return res.status(httpStatus.INTERNAL_SERVER_ERROR).json({error:true, message:"Oops! something gone wrong"});
     }
 };
 
