@@ -18,7 +18,7 @@ const oauth2Esignet = async (req, res) => {
         const academic = await getInfo(userEsgnetInfos.email);
         const {picture, ...rest} = userEsgnetInfos;
 
-        // await savePhoto(picture);
+        await savePhoto(picture);
         
         const combinedInfo = { ...academic, ...rest};
         //bobox idea
@@ -32,9 +32,10 @@ const oauth2Esignet = async (req, res) => {
         res.status(httpStatus.INTERNAL_SERVER_ERROR).json({error:true, message:"Oops! something gone wrong"});
     }
 };
+
+
+
 const getImage = async (req, res) => {
-
-
     try {
         const photo = await getPhoto();
 
