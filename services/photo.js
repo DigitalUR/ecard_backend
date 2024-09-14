@@ -4,6 +4,7 @@ const getPhoto = async () => {
         `SELECT * FROM tempPhoto`
     );
 
+    console.log(photo);
     await connectionPool.execute(
         `TRUNCATE TABLE tempPhoto`
     );
