@@ -16,17 +16,17 @@ const oauth2Esignet = async (req, res) => {
     try {
         const userEsgnetInfos = await esignet(code);
         const academic = await getInfo(userEsgnetInfos.email);
-        const image = userEsgnetInfos.picture;
+        const {picture, ...rest} = userEsgnetInfos;
 
-        await savePhoto(image);
+        await savePhoto(picture);
         
-        const combinedInfo = { ...academic, ...userEsgnetInfos};
+        const combinedInfo = { ...academic, ...rest};
         //bobox idea
 
         const token = jwt.sign(combinedInfo, process.env.JWT_SECRET_KEY);
         if(state === 'ecard_request')
             return res.redirect(`https://ecard-mosip.vercel.app/studentPortal/${token}`);
-        return res. redirect(`${state}?studentInfo=${combinedInfo}`); 
+        return res. redirect(`${state}&data=${combinedInfo}`); 
     } catch (error) {
         console.error(error.stack);
         res.status(httpStatus.INTERNAL_SERVER_ERROR).json({error:true, message:"Oops! something gone wrong"});
