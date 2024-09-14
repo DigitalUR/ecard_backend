@@ -9,6 +9,7 @@ dotenv.config();
 
 const oauth2Esignet = async (req, res) => {
     const { code, state } = req.query;
+    console.log(req.query);
     if (!code) 
         return res.status(httpStatus.UNAUTHORIZED).json({error:true, message:"oauth2 failed"});
 
