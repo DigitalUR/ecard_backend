@@ -24,7 +24,7 @@ const oauth2Esignet = async (req, res) => {
         const token = jwt.sign(combinedInfo, process.env.JWT_SECRET_KEY);
         if(state === 'ecard_request')
             return res.redirect(`https://ecard-mosip.vercel.app/studentPortal/${token}`);
-        return res. redirect(`${state}?data=${token}`); 
+        return res. redirect(`${state}?data=${token}&type=student`); 
     } catch (error) {
         console.error(error.stack);
         return res.status(httpStatus.INTERNAL_SERVER_ERROR).json({error:true, message:"Oops! something gone wrong"});
