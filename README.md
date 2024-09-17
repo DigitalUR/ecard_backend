@@ -28,7 +28,7 @@ In our project, we used a use-case scenario at our University of Rwanda (UR). We
 This project contains two applications:
 
 1. **eCard:** This application helps students view their online student card, showing both foundational and academic information.
-   - [eCard Backend documentation][https://ecard-backend.onrender.com)
+   - [eCard Backend documentation](https://ecard-backend.onrender.com)
 
 2. **Relying Demo App:** This app demonstrates how eCard can be used by third-party applications to recognize individuals as students. It allows students to sign up using eCard, providing an alternative to student emails.
    - [Relying App Demo Prototype](https://ecard-relying-demo.vercel.app/auth)
